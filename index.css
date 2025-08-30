@@ -233,3 +233,15 @@ img {
     text-align: center;
   }
 }
+
+/* ===== FADE-IN ANIMATION ===== */
+.fade-in {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  transition: all 0.8s ease;
+}
+
+section, .feature-card, .footer {
+  opacity: 0;
+  transform: translateY(30px);
+}
