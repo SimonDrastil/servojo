@@ -17,15 +17,17 @@ const server = http.createServer((req, res) => {
     '.jpeg': 'image/jpeg',
     '.ico': 'image/x-icon',
     '.svg': 'image/svg+xml',
-    '.json': 'application/json'
+    '.json': 'application/json',
+    '.woff2': 'font/woff2'
   };
 
   fs.readFile(filePath, (err, content) => {
     if (err) {
-      res.writeHead(404);
+      res.writeHead(404, { 'Content-Type': 'text/plain' });
+      console.error('Missing', filePath);
       res.end('Not found');
     } else {
-      res.setHeader('Content-Type', map[ext] || 'text/plain');
+      res.writeHead(200, { 'Content-Type': map[ext] || 'text/plain' });
       res.end(content);
     }
   });

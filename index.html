@@ -51,6 +51,7 @@ body{
 
 img{max-width:100%;display:block;}
 a{text-decoration:none;color:inherit;}
+a,.btn{transition:color var(--transition-base),background var(--transition-base),border-color var(--transition-base);}
 .container{max-width:1200px;margin:0 auto;padding:0 var(--space-24);}
 
 .loader{
@@ -77,7 +78,8 @@ body.loaded .loader{opacity:0;pointer-events:none;transform:translate(-50%,-50%)
   transform:translateX(-50%);
   width:calc(100% - 2 * var(--space-24));
   max-width:1200px;
-  background:rgba(255,255,255,0.06);
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.15);
   border-radius:24px;
   padding:var(--space-16) var(--space-24);
   display:flex;
@@ -85,17 +87,32 @@ body.loaded .loader{opacity:0;pointer-events:none;transform:translate(-50%,-50%)
   justify-content:space-between;
   backdrop-filter:blur(16px);
   box-shadow:var(--shadow-dark);
+  overflow:hidden;
   z-index:100;
-  transition:padding var(--transition-base) ease,backdrop-filter var(--transition-base) ease,transform var(--transition-base) ease;
+  transition:padding var(--transition-base) ease,backdrop-filter var(--transition-base) ease,transform var(--transition-base) ease,background var(--transition-base) ease;
 }
-body.scrolled .header{padding:var(--space-8) var(--space-24);backdrop-filter:blur(24px);}
+.header::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  background:linear-gradient(120deg,rgba(255,255,255,0.3),rgba(255,255,255,0));
+  opacity:0.4;
+  pointer-events:none;
+  transition:opacity var(--transition-base) ease;
+}
+body.scrolled .header{padding:var(--space-8) var(--space-24);backdrop-filter:blur(24px);background:rgba(255,255,255,0.1);}
+body.scrolled .header::before{opacity:0.2;}
 .logo img{height:32px;}
 .nav{display:flex;gap:var(--space-24);}
 .nav a{
   font-weight:500;
   position:relative;
   padding:var(--space-8) 0;
+  color:var(--silver);
+  transition:color var(--transition-fast);
 }
+.nav a:hover{color:var(--white);}
 .nav a::after{
   content:'';
   position:absolute;
@@ -171,8 +188,8 @@ body.scrolled .header{padding:var(--space-8) var(--space-24);backdrop-filter:blu
 
 /* FEATURES */
 .features{
-  background:var(--paper);
-  color:var(--ink);
+  background:var(--ink);
+  color:var(--white);
   padding:var(--space-96) 0;
 }
 .features h2{text-align:center;font-size:2rem;font-weight:600;margin-bottom:var(--space-56);}
@@ -185,20 +202,23 @@ body.scrolled .header{padding:var(--space-8) var(--space-24);backdrop-filter:blu
   margin:0 auto;
 }
 .feature-card{
-  background:rgba(255,255,255,0.65);
+  background:rgba(255,255,255,0.06);
   backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,0.1);
   border-radius:16px;
   padding:var(--space-32);
-  box-shadow:var(--shadow-light);
+  box-shadow:var(--shadow-dark);
   text-align:center;
   transform:translateY(40px) scale(.95);
   filter:blur(10px);
   opacity:0;
-  transition:transform .6s cubic-bezier(.22,.61,.36,1),filter .6s ease,opacity .6s ease,box-shadow var(--transition-fast);
+  transition:transform .6s cubic-bezier(.22,.61,.36,1),filter .6s ease,opacity .6s ease,box-shadow var(--transition-fast),color var(--transition-base);
 }
-.feature-card svg{width:32px;height:32px;margin-bottom:var(--space-24);stroke:currentColor;}
+.feature-card svg{width:32px;height:32px;margin-bottom:var(--space-24);stroke:currentColor;color:var(--silver);transition:color var(--transition-base);}
+.feature-card p{color:var(--silver);}
 .feature-card.visible{transform:translateY(0) scale(1);filter:blur(0);opacity:1;}
 .feature-card:hover{box-shadow:0 8px 40px rgba(0,0,0,0.15);}
+.feature-card:hover svg{color:var(--white);}
 
 /* SHOWCASE */
 .showcase{
@@ -309,12 +329,12 @@ body.scrolled .header{padding:var(--space-8) var(--space-24);backdrop-filter:blu
 
 <header id="site-header" class="header">
   <a href="#hero" class="logo"><img src="assets/servojo.png" alt="Servojo"></a>
-  <nav class="nav">
+  <nav id="primary-nav" class="nav">
     <a href="#features">Features</a>
     <a href="#showcase">Showcase</a>
     <a href="#cta">Get Started</a>
   </nav>
-  <button class="nav-toggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav"><span></span><span></span><span></span></button>
 </header>
 
 <main>
@@ -332,22 +352,22 @@ body.scrolled .header{padding:var(--space-8) var(--space-24);backdrop-filter:blu
   <h2>Why Servojo?</h2>
   <div class="feature-grid">
     <div class="feature-card reveal">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
       <h3>Instant Access</h3>
       <p>Deploy AI agents in seconds with zero setup.</p>
     </div>
     <div class="feature-card reveal">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 6v4l3 3"/></svg>
+      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 6v4l3 3"/></svg>
       <h3>Customizable</h3>
       <p>Use marketplace-ready agents or tailor them to your workflow.</p>
     </div>
     <div class="feature-card reveal">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 10h20"/></svg>
+      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 10h20"/></svg>
       <h3>Simple Pricing</h3>
       <p>Transparent plans that scale with your needs.</p>
     </div>
     <div class="feature-card reveal">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>
+      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>
       <h3>Reliable</h3>
       <p>Enterprise-grade uptime and security built-in.</p>
     </div>
@@ -408,6 +428,12 @@ document.querySelectorAll('nav a').forEach(link=>{
     navToggle.setAttribute('aria-expanded','false');
     document.querySelector(link.getAttribute('href')).scrollIntoView({behavior:'smooth'});
   });
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    header.classList.remove('open');
+    navToggle.setAttribute('aria-expanded','false');
+  }
 });
 
 window.addEventListener('scroll',()=>{
