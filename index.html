@@ -1,24 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Meta Information -->
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Servojo - AI Agents Marketplace. AI agents on demand, ready to serve.">
-  <title>Servojo | AI Marketplace</title>
-  
-  <!-- Favicon -->
-  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
-
-  <!-- CSS -->
-  <link rel="stylesheet" href="index.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Servojo - AI Agents Marketplace. AI agents on demand, ready to serve." />
+  <title>Servojo | AI Agent Marketplace</title>
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="fonts/inter.css" />
+  <link rel="stylesheet" href="index.css" />
 </head>
 <body>
-  <!-- ===== NAVBAR ===== -->
   <header class="navbar">
     <div class="container">
-      <img src="assets/servojo.png" alt="Servojo Logo" class="logo">
+      <a href="#" class="logo-link">
+        <img src="assets/servojo.png" alt="Servojo logo" class="logo" />
+      </a>
       <nav>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
         <ul class="nav-links">
           <li><a href="#features">Features</a></li>
           <li><a href="#waitlist">Waitlist</a></li>
@@ -28,54 +33,58 @@
     </div>
   </header>
 
-  <!-- ===== HERO SECTION ===== -->
-  <section class="hero">
-    <div class="hero-content">
-      <h1>AI Agents. On Demand. Ready to Serve.</h1>
-      <p class="subtitle">The marketplace where you can grab AI agents off the shelf and start using them instantly.</p>
-      <a href="#waitlist" class="btn-primary">Join the Waitlist</a>
-    </div>
-  </section>
-
-  <!-- ===== FEATURES ===== -->
-  <section id="features" class="features">
-    <div class="container">
-      <h2>Why Servojo?</h2>
-      <div class="feature-grid">
-        <div class="feature-card">
-          <h3>⚡ Instant Access</h3>
-          <p>Browse and deploy AI agents in seconds, no setup required.</p>
-        </div>
-        <div class="feature-card">
-          <h3>🤖 Pre-Built & Customizable</h3>
-          <p>Use marketplace-ready AI agents or tweak them to fit your needs.</p>
-        </div>
-        <div class="feature-card">
-          <h3>💳 Simple Pricing</h3>
-          <p>Pay once or subscribe, no complexity, full transparency.</p>
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <h1>AI Agents. On Demand. Ready to Serve.</h1>
+        <p class="subtitle">The marketplace where you can grab AI agents off the shelf and start using them instantly.</p>
+        <div class="hero-actions">
+          <a href="#waitlist" class="btn btn-primary">Join the Waitlist</a>
+          <a href="#features" class="btn btn-ghost">Learn More</a>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ===== WAITLIST ===== -->
-  <section id="waitlist" class="waitlist">
-    <div class="container">
-      <h2>Be the First to Experience Servojo</h2>
-      <p>Join our waitlist and get exclusive beta access + early discounts.</p>
-      <form class="waitlist-form">
-        <input type="email" id="email" placeholder="Enter your email" required>
-        <button type="submit" class="btn-primary">Join Now</button>
-      </form>
-      <p class="form-message" id="form-message"></p>
-    </div>
-  </section>
+    <section id="features" class="features">
+      <div class="container">
+        <h2>Why Servojo?</h2>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            <h3>Instant Access</h3>
+            <p>Browse and deploy AI agents in seconds, no setup required.</p>
+          </div>
+          <div class="feature-card">
+            <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 6v4l3 3"/></svg>
+            <h3>Pre-Built &amp; Customizable</h3>
+            <p>Use marketplace-ready AI agents or tweak them to fit your needs.</p>
+          </div>
+          <div class="feature-card">
+            <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 10h20"/></svg>
+            <h3>Simple Pricing</h3>
+            <p>Pay once or subscribe, no complexity, full transparency.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <!-- ===== FOOTER ===== -->
+    <section id="waitlist" class="waitlist">
+      <div class="container">
+        <h2>Be the First to Experience Servojo</h2>
+        <p>Join our waitlist and get exclusive beta access plus early discounts.</p>
+        <form class="waitlist-form">
+          <input type="email" id="email" placeholder="Enter your email" required />
+          <button type="submit" class="btn btn-dark">Join Now</button>
+        </form>
+        <p class="form-message" id="form-message"></p>
+      </div>
+    </section>
+  </main>
+
   <footer id="footer" class="footer">
     <div class="container">
-      <img src="assets/servojo.png" alt="Servojo Logo Small" class="logo-small">
-      <p>© 2025 Servojo. All rights reserved.</p>
+      <img src="assets/servojo.png" alt="Servojo logo" class="logo-small" />
+      <p>&copy; 2025 Servojo. All rights reserved.</p>
       <div class="social-links">
         <a href="#">Twitter</a>
         <a href="#">LinkedIn</a>
@@ -84,7 +93,6 @@
     </div>
   </footer>
 
-  <!-- JS -->
   <script src="index.js"></script>
 </body>
 </html>
