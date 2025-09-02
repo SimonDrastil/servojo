@@ -1,98 +1,444 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Servojo - AI Agents Marketplace. AI agents on demand, ready to serve." />
-  <title>Servojo | AI Agent Marketplace</title>
-  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="fonts/inter.css" />
-  <link rel="stylesheet" href="index.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Servojo – AI Agent Marketplace</title>
+<meta name="description" content="Servojo - AI Agents on demand, ready to serve.">
+<link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#0B0B0B;
+  --near-black:#111111;
+  --graphite:#1A1A1A;
+  --slate:#2A2A2A;
+  --ash:#3A3A3A;
+  --silver:#8A8A8A;
+  --mist:#EAEAEA;
+  --paper:#F7F7F7;
+  --white:#FFFFFF;
+
+  --space-4:4px;
+  --space-8:8px;
+  --space-12:12px;
+  --space-16:16px;
+  --space-24:24px;
+  --space-32:32px;
+  --space-40:40px;
+  --space-56:56px;
+  --space-72:72px;
+  --space-96:96px;
+
+  --transition-fast:150ms;
+  --transition-base:200ms;
+  --shadow-light:0 8px 30px rgba(0,0,0,0.12);
+  --shadow-dark:0 8px 30px rgba(0,0,0,0.6);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--ink);
+  color:var(--white);
+  line-height:1.6;
+  overflow-x:hidden;
+}
+
+img{max-width:100%;display:block;}
+a{text-decoration:none;color:inherit;}
+.container{max-width:1200px;margin:0 auto;padding:0 var(--space-24);}
+
+.loader{
+  position:fixed;
+  top:50%;
+  left:50%;
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.1);
+  backdrop-filter:blur(12px);
+  transform:translate(-50%,-50%);
+  box-shadow:var(--shadow-dark);
+  transition:opacity .6s ease,transform .6s ease;
+  z-index:1000;
+}
+body.loaded .loader{opacity:0;pointer-events:none;transform:translate(-50%,-50%) scale(1.6);}
+
+/* HEADER */
+.header{
+  position:fixed;
+  top:var(--space-24);
+  left:50%;
+  transform:translateX(-50%);
+  width:calc(100% - 2 * var(--space-24));
+  max-width:1200px;
+  background:rgba(255,255,255,0.06);
+  border-radius:24px;
+  padding:var(--space-16) var(--space-24);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  backdrop-filter:blur(16px);
+  box-shadow:var(--shadow-dark);
+  z-index:100;
+  transition:padding var(--transition-base) ease,backdrop-filter var(--transition-base) ease,transform var(--transition-base) ease;
+}
+body.scrolled .header{padding:var(--space-8) var(--space-24);backdrop-filter:blur(24px);}
+.logo img{height:32px;}
+.nav{display:flex;gap:var(--space-24);}
+.nav a{
+  font-weight:500;
+  position:relative;
+  padding:var(--space-8) 0;
+}
+.nav a::after{
+  content:'';
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:0;
+  height:1px;
+  background:var(--white);
+  transition:width var(--transition-fast) ease;
+}
+.nav a:hover::after{width:100%;}
+.nav-toggle{display:none;flex-direction:column;gap:var(--space-4);background:none;border:none;cursor:pointer;}
+.nav-toggle span{width:24px;height:2px;background:var(--white);transition:transform var(--transition-base) ease;}
+
+/* HERO */
+.hero{
+  position:relative;
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  overflow:hidden;
+}
+.hero .blob{
+  position:absolute;
+  border-radius:50%;
+  background:radial-gradient(circle at 30% 30%,rgba(255,255,255,0.3),transparent);
+  filter:blur(60px);
+  opacity:0.6;
+}
+.hero .blob.b1{width:400px;height:400px;top:-100px;left:-100px;}
+.hero .blob.b2{width:300px;height:300px;bottom:-80px;right:-120px;}
+.hero-card{
+  position:relative;
+  z-index:1;
+  background:rgba(255,255,255,0.06);
+  backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,0.2);
+  border-radius:24px;
+  padding:var(--space-56) var(--space-40);
+  box-shadow:var(--shadow-dark);
+  max-width:600px;
+}
+.hero-card h1{
+  font-weight:700;
+  font-size:2.5rem;
+  letter-spacing:-1px;
+  margin-bottom:var(--space-24);
+}
+.hero-card p{color:var(--silver);margin-bottom:var(--space-40);}
+
+/* BUTTONS */
+.btn{
+  display:inline-block;
+  padding:var(--space-12) var(--space-24);
+  border-radius:24px;
+  font-weight:500;
+  letter-spacing:.4px;
+  cursor:pointer;
+  transition:transform var(--transition-fast) ease,filter var(--transition-fast) ease,box-shadow var(--transition-fast);
+}
+.btn-primary{background:var(--white);color:var(--ink);border:none;}
+.btn-dark{background:var(--ink);color:var(--white);border:none;}
+.btn-ghost{
+  background:rgba(255,255,255,0.08);
+  color:var(--white);
+  border:1px solid rgba(255,255,255,0.3);
+  backdrop-filter:blur(16px);
+}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.02);box-shadow:0 4px 20px rgba(0,0,0,0.2);}
+.btn:focus{outline:2px solid var(--white);outline-offset:2px;}
+
+/* FEATURES */
+.features{
+  background:var(--paper);
+  color:var(--ink);
+  padding:var(--space-96) 0;
+}
+.features h2{text-align:center;font-size:2rem;font-weight:600;margin-bottom:var(--space-56);}
+.feature-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:var(--space-32);
+  padding:0 var(--space-24);
+  max-width:1200px;
+  margin:0 auto;
+}
+.feature-card{
+  background:rgba(255,255,255,0.65);
+  backdrop-filter:blur(12px);
+  border-radius:16px;
+  padding:var(--space-32);
+  box-shadow:var(--shadow-light);
+  text-align:center;
+  transform:translateY(40px) scale(.95);
+  filter:blur(10px);
+  opacity:0;
+  transition:transform .6s cubic-bezier(.22,.61,.36,1),filter .6s ease,opacity .6s ease,box-shadow var(--transition-fast);
+}
+.feature-card svg{width:32px;height:32px;margin-bottom:var(--space-24);stroke:currentColor;}
+.feature-card.visible{transform:translateY(0) scale(1);filter:blur(0);opacity:1;}
+.feature-card:hover{box-shadow:0 8px 40px rgba(0,0,0,0.15);}
+
+/* SHOWCASE */
+.showcase{
+  position:relative;
+  background:var(--ink);
+  color:var(--white);
+  padding:var(--space-96) var(--space-24);
+  overflow:hidden;
+  text-align:center;
+}
+.showcase .blob{
+  position:absolute;
+  border-radius:50%;
+  background:radial-gradient(circle at 50% 50%,rgba(255,255,255,0.1),transparent);
+  filter:blur(80px);
+  opacity:0.4;
+}
+.showcase .blob.b1{width:500px;height:500px;top:-150px;left:10%;}
+.showcase .blob.b2{width:400px;height:400px;bottom:-200px;right:-100px;}
+.showcase .glass{
+  position:relative;
+  max-width:900px;
+  margin:0 auto;
+  background:rgba(255,255,255,0.06);
+  backdrop-filter:blur(16px);
+  border-radius:24px;
+  padding:var(--space-56) var(--space-40);
+  box-shadow:var(--shadow-dark);
+  display:flex;
+  gap:var(--space-32);
+  transform:translateY(40px) scale(.95);
+  filter:blur(10px);
+  opacity:0;
+  transition:transform .6s cubic-bezier(.22,.61,.36,1),filter .6s ease,opacity .6s ease;
+}
+.showcase .glass.visible{transform:translateY(0) scale(1);filter:blur(0);opacity:1;}
+.callout{flex:1;}
+.callout + .callout{border-left:1px solid rgba(255,255,255,0.1);padding-left:var(--space-32);}
+.callout h3{font-size:1.25rem;font-weight:600;margin-bottom:var(--space-16);}
+.callout p{color:var(--silver);}
+
+/* CTA SECTION */
+.cta{
+  background:linear-gradient(to bottom,var(--ink),var(--graphite));
+  padding:var(--space-96) var(--space-24);
+  text-align:center;
+}
+.cta-card{
+  background:rgba(255,255,255,0.06);
+  backdrop-filter:blur(20px);
+  border-radius:24px;
+  padding:var(--space-72) var(--space-40);
+  box-shadow:var(--shadow-dark);
+  max-width:600px;
+  margin:0 auto;
+  transform:scale(.9);
+  opacity:0;
+  transition:transform .6s cubic-bezier(.22,.61,.36,1),opacity .6s ease;
+}
+.cta-card.visible{transform:scale(1);opacity:1;}
+.cta-card h2{font-size:2rem;font-weight:600;margin-bottom:var(--space-24);}
+.cta-card p{color:var(--silver);margin-bottom:var(--space-40);}
+
+/* FOOTER */
+.footer{
+  background:var(--near-black);
+  color:var(--silver);
+  padding:var(--space-40) var(--space-24);
+  margin:var(--space-72) auto var(--space-24);
+  width:calc(100% - 2 * var(--space-24));
+  max-width:1200px;
+  border-radius:24px;
+  position:relative;
+  text-align:center;
+  box-shadow:var(--shadow-dark);
+}
+.footer::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:1px;
+  background:rgba(255,255,255,0.4);
+  filter:blur(4px);
+}
+.footer nav{display:flex;justify-content:center;gap:var(--space-24);margin-bottom:var(--space-24);}
+.footer nav a{color:var(--silver);font-size:0.875rem;}
+.footer nav a:hover{color:var(--white);}
+.footer p{font-size:0.75rem;}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .nav{position:absolute;top:100%;right:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(12px);flex-direction:column;padding:var(--space-24);border-radius:16px;transform:translateY(-20px);opacity:0;pointer-events:none;transition:transform var(--transition-base) ease,opacity var(--transition-base) ease;}
+  .nav a{padding:var(--space-8) 0;}
+  .header.open .nav{transform:translateY(0);opacity:1;pointer-events:auto;}
+  .nav-toggle{display:flex;}
+}
+
+/* MOTION SAFE */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation: none!important;transition:none!important;}
+}
+</style>
 </head>
 <body>
-  <header class="navbar">
-    <div class="container">
-      <a href="#" class="logo-link">
-        <img src="assets/servojo.png" alt="Servojo logo" class="logo" />
-      </a>
-      <nav>
-        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-        <ul class="nav-links">
-          <li><a href="#features">Features</a></li>
-          <li><a href="#waitlist">Waitlist</a></li>
-          <li><a href="#footer">Contact</a></li>
-        </ul>
-      </nav>
+<div id="loader" class="loader"></div>
+
+<header id="site-header" class="header">
+  <a href="#hero" class="logo"><img src="assets/servojo.png" alt="Servojo"></a>
+  <nav class="nav">
+    <a href="#features">Features</a>
+    <a href="#showcase">Showcase</a>
+    <a href="#cta">Get Started</a>
+  </nav>
+  <button class="nav-toggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+</header>
+
+<main>
+<section id="hero" class="hero">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="hero-card">
+    <h1>AI Agents. Ready to Serve.</h1>
+    <p>Get intelligent help from a marketplace built for speed and simplicity.</p>
+    <a href="#cta" class="btn btn-ghost">Join the Waitlist</a>
+  </div>
+</section>
+
+<section id="features" class="features">
+  <h2>Why Servojo?</h2>
+  <div class="feature-grid">
+    <div class="feature-card reveal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      <h3>Instant Access</h3>
+      <p>Deploy AI agents in seconds with zero setup.</p>
     </div>
-  </header>
-
-  <main>
-    <section class="hero">
-      <div class="hero-content">
-        <h1>AI Agents. On Demand. Ready to Serve.</h1>
-        <p class="subtitle">The marketplace where you can grab AI agents off the shelf and start using them instantly.</p>
-        <div class="hero-actions">
-          <a href="#waitlist" class="btn btn-primary">Join the Waitlist</a>
-          <a href="#features" class="btn btn-ghost">Learn More</a>
-        </div>
-      </div>
-    </section>
-
-    <section id="features" class="features">
-      <div class="container">
-        <h2>Why Servojo?</h2>
-        <div class="feature-grid">
-          <div class="feature-card">
-            <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-            <h3>Instant Access</h3>
-            <p>Browse and deploy AI agents in seconds, no setup required.</p>
-          </div>
-          <div class="feature-card">
-            <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 6v4l3 3"/></svg>
-            <h3>Pre-Built &amp; Customizable</h3>
-            <p>Use marketplace-ready AI agents or tweak them to fit your needs.</p>
-          </div>
-          <div class="feature-card">
-            <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 10h20"/></svg>
-            <h3>Simple Pricing</h3>
-            <p>Pay once or subscribe, no complexity, full transparency.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="waitlist" class="waitlist">
-      <div class="container">
-        <h2>Be the First to Experience Servojo</h2>
-        <p>Join our waitlist and get exclusive beta access plus early discounts.</p>
-        <form class="waitlist-form">
-          <input type="email" id="email" placeholder="Enter your email" required />
-          <button type="submit" class="btn btn-dark">Join Now</button>
-        </form>
-        <p class="form-message" id="form-message"></p>
-      </div>
-    </section>
-  </main>
-
-  <footer id="footer" class="footer">
-    <div class="container">
-      <img src="assets/servojo.png" alt="Servojo logo" class="logo-small" />
-      <p>&copy; 2025 Servojo. All rights reserved.</p>
-      <div class="social-links">
-        <a href="#">Twitter</a>
-        <a href="#">LinkedIn</a>
-        <a href="#">Discord</a>
-      </div>
+    <div class="feature-card reveal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 6v4l3 3"/></svg>
+      <h3>Customizable</h3>
+      <p>Use marketplace-ready agents or tailor them to your workflow.</p>
     </div>
-  </footer>
+    <div class="feature-card reveal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 10h20"/></svg>
+      <h3>Simple Pricing</h3>
+      <p>Transparent plans that scale with your needs.</p>
+    </div>
+    <div class="feature-card reveal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>
+      <h3>Reliable</h3>
+      <p>Enterprise-grade uptime and security built-in.</p>
+    </div>
+  </div>
+</section>
 
-  <script src="index.js"></script>
+<section id="showcase" class="showcase">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="glass reveal">
+    <div class="callout">
+      <h3>Speed</h3>
+      <p>Responses in under 50ms keep you in flow.</p>
+    </div>
+    <div class="callout">
+      <h3>Simplicity</h3>
+      <p>One line of code to summon any agent.</p>
+    </div>
+    <div class="callout">
+      <h3>Automation</h3>
+      <p>Agents chain tasks and learn as they go.</p>
+    </div>
+  </div>
+</section>
+
+<section id="cta" class="cta">
+  <div class="cta-card reveal">
+    <h2>Be First in Line</h2>
+    <p>Join the waitlist for early access and updates.</p>
+    <a href="#" class="btn btn-primary">Join Now</a>
+  </div>
+</section>
+</main>
+
+<footer id="footer" class="footer">
+  <nav>
+    <a href="#features">Features</a>
+    <a href="#showcase">Showcase</a>
+    <a href="#cta">Get Started</a>
+  </nav>
+  <p>&copy; 2025 Servojo. All rights reserved.</p>
+</footer>
+
+<script>
+const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+window.addEventListener('load',()=>{document.body.classList.add('loaded');});
+const header = document.getElementById('site-header');
+const nav = document.querySelector('.nav');
+const navToggle = document.querySelector('.nav-toggle');
+navToggle.addEventListener('click',()=>{
+  const open = header.classList.toggle('open');
+  navToggle.setAttribute('aria-expanded', open);
+});
+document.querySelectorAll('nav a').forEach(link=>{
+  link.addEventListener('click',e=>{
+    e.preventDefault();
+    header.classList.remove('open');
+    navToggle.setAttribute('aria-expanded','false');
+    document.querySelector(link.getAttribute('href')).scrollIntoView({behavior:'smooth'});
+  });
+});
+
+window.addEventListener('scroll',()=>{
+  const y = window.scrollY;
+  document.body.classList.toggle('scrolled', y>20);
+});
+
+if(!prefersReduce){
+  const revealEls = document.querySelectorAll('.reveal, .glass, .cta-card');
+  const observer = new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  },{threshold:0.2});
+  revealEls.forEach(el=>observer.observe(el));
+
+  const heroBlobs = document.querySelectorAll('.hero .blob');
+  const showcaseBlobs = document.querySelectorAll('.showcase .blob');
+  const parallax = ()=>{
+    const scrolled = window.scrollY;
+    heroBlobs[0].style.transform = `translateY(${scrolled * 0.1}px)`;
+    heroBlobs[1].style.transform = `translateY(${scrolled * -0.1}px)`;
+    showcaseBlobs[0].style.transform = `translateY(${scrolled * -0.05}px)`;
+    showcaseBlobs[1].style.transform = `translateY(${scrolled * 0.05}px)`;
+    requestAnimationFrame(parallax);
+  };
+  requestAnimationFrame(parallax);
+}
+</script>
 </body>
 </html>

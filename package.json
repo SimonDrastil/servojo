@@ -2,7 +2,7 @@
   "name": "servojo",
   "version": "1.0.0",
   "description": "Servojo landing page",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "test": "node --test"
