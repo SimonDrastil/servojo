@@ -44,6 +44,7 @@
   --angle-2:-45deg;
   --anim--hover-time:400ms;
   --anim--hover-ease:cubic-bezier(0.25,1,0.5,1);
+  --m:4rem;
 }
 
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -304,34 +305,98 @@ body.scrolled .header::before{opacity:0;}
 .cta-card h2{font-size:2rem;font-weight:600;margin-bottom:var(--space-24);}
 .cta-card p{color:var(--slate);margin-bottom:var(--space-40);}
 
-/* FOOTER */
-.footer{
-  background:rgba(255,255,255,0.65);
-  color:var(--slate);
-  padding:var(--space-40) var(--space-24);
-  margin:var(--space-72) auto var(--space-24);
-  width:calc(100% - 2 * var(--space-24));
-  max-width:1200px;
-  border-radius:24px;
-  position:relative;
+/* SCROLL CARD */
+.scroll-card{
+  position:fixed;
+  top:calc(2 * var(--m));
+  left:50%;
+  transform:translateX(-50%);
+  width:calc(12 * var(--m));
+  height:calc(8 * var(--m));
+  background:linear-gradient(120deg,var(--graphite),var(--near-black));
+  color:var(--white);
+  border-radius:calc(0.5 * var(--m));
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:var(--m);
+  z-index:200;
+}
+.scroll-card h2{
+  font-weight:600;
   text-align:center;
-  box-shadow:var(--shadow-light);
-  border:1px solid rgba(0,0,0,0.1);
+  font-size:var(--m);
+  margin:0;
 }
-.footer::before{
-  content:'';
+.scroll-card button{
+  all:unset;
+  cursor:pointer;
+  background:var(--white);
+  color:var(--ink);
+  font-size:calc(0.4 * var(--m));
+  font-weight:500;
+  padding:calc(0.35 * var(--m)) calc(0.8 * var(--m));
+  border-radius:calc(0.3 * var(--m));
+}
+.scroll-card button a{color:inherit;text-decoration:none;}
+
+/* FOOTER */
+#footer{
+  margin-top:80vh;
+  z-index:500;
+  width:100%;
+  height:100vh;
+  display:flex;
+  flex-direction:row;
+  justify-content:space-evenly;
+  align-items:flex-end;
+  padding:5rem 2vw;
+  position:relative;
+  color:var(--mist);
+}
+#footer::before{
+  content:"";
   position:absolute;
-  top:0;
-  left:0;
-  right:0;
-  height:1px;
-  background:rgba(0,0,0,0.1);
-  filter:blur(4px);
+  inset:0;
+  background:linear-gradient(rgba(0,0,0,0) 5%,rgba(0,0,0,0.3) 20%,rgba(0,0,0,0.6) 30%,rgba(0,0,0,0.8) 40%,rgba(0,0,0,1) 50%,rgb(0,0,0));
+  z-index:-7;
 }
-.footer nav{display:flex;justify-content:center;gap:var(--space-24);margin-bottom:var(--space-24);}
-.footer nav a{color:var(--slate);font-size:0.875rem;}
-.footer nav a:hover{color:var(--ink);}
-.footer p{font-size:0.75rem;}
+#footer .backdrop{
+  z-index:-5;
+  position:absolute;
+  inset:0;
+  backdrop-filter:blur(40px);
+  -webkit-backdrop-filter:blur(40px);
+  mask-image:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0.5) 10%,rgba(0,0,0,0.8) 20%,rgba(0,0,0,1) 30%,rgb(0,0,0));
+  -webkit-mask-image:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0.5) 10%,rgba(0,0,0,0.8) 20%,rgba(0,0,0,1) 30%,rgb(0,0,0));
+}
+#footer .col{
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:flex-start;
+  padding:calc(0.3 * var(--m)) calc(0.8 * var(--m));
+  width:28%;
+}
+#footer .col2,#footer .col3{
+  background:var(--near-black);
+  border-radius:calc(0.5 * var(--m));
+}
+#footer h3{
+  font-weight:600;
+  font-size:calc(0.6 * var(--m));
+  margin:0;
+}
+#footer img{height:calc(0.3 * var(--m));object-fit:cover;}
+#footer .social{display:flex;flex-direction:row;justify-content:flex-start;gap:1rem;}
+#footer a{text-decoration:none;color:inherit;}
+#footer .link{
+  width:calc(0.8 * var(--m));
+  height:calc(0.8 * var(--m));
+  background-color:rgba(255,255,255,0.1);
+  border-radius:calc(0.1 * var(--m));
+  display:flex;justify-content:center;align-items:center;
+}
 
 /* RESPONSIVE */
 @media(max-width:768px){
@@ -343,9 +408,17 @@ body.scrolled .header::before{opacity:0;}
   .header-search{display:none;}
 }
 
+@media screen and (max-width:1000px){
+  #footer{flex-direction:row;}
+}
+@media screen and (max-width:700px){
+  #footer{flex-direction:column;padding:5rem 20vw;}
+  #footer .col{width:100%;}
+}
+
 /* MOTION SAFE */
 @media (prefers-reduced-motion: reduce){
-  *,*::before,*::after{animation: none!important;transition:none!important;}
+  *,*::before,*::after{animation:none!important;transition:none!important;}
 }
 </style>
 </head>
@@ -447,6 +520,10 @@ body.scrolled .header::before{opacity:0;}
   <input type="search" class="header-search" placeholder="Search" aria-label="Search">
   <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav"><span></span><span></span><span></span></button>
 </header>
+<div class="scroll-card">
+  <h2>Scroll Down<br>Explore Servojo</h2>
+  <button><a href="#footer">Scroll</a></button>
+</div>
 
 <main>
 <section id="hero" class="hero">
@@ -513,13 +590,30 @@ body.scrolled .header::before{opacity:0;}
 </section>
 </main>
 
-<footer id="footer" class="footer">
-  <nav>
-    <a href="#features">Features</a>
-    <a href="#showcase">Showcase</a>
-    <a href="#cta">Get Started</a>
-  </nav>
-  <p>&copy; 2025 Servojo. All rights reserved.</p>
+<footer id="footer">
+  <div class="col col1">
+    <h3>Servojo</h3>
+    <p>Made with <span style="color:#BA6573;">❤</span> by Servojo</p>
+    <div class="social">
+      <a href="#" class="link" aria-label="CodePen" target="_blank"><img src="https://assets.codepen.io/9051928/codepen_1.png" alt="" aria-hidden="true"></a>
+      <a href="#" class="link" aria-label="Twitter" target="_blank"><img src="https://assets.codepen.io/9051928/x.png" alt="" aria-hidden="true"></a>
+      <a href="#" class="link" aria-label="YouTube" target="_blank"><img src="https://assets.codepen.io/9051928/youtube_1.png" alt="" aria-hidden="true"></a>
+    </div>
+    <p style="color: var(--silver); font-size: smaller">2024 © All Rights Reserved</p>
+  </div>
+  <div class="col col2">
+    <p>About</p>
+    <p>Our mission</p>
+    <p>Privacy Policy</p>
+    <p>Terms of service</p>
+  </div>
+  <div class="col col3">
+    <p>Agents</p>
+    <p>Products</p>
+    <p>Join our team</p>
+    <p>Partner with us</p>
+  </div>
+  <div class="backdrop"></div>
 </footer>
 
 <script>
