@@ -124,6 +124,19 @@ body.scrolled .header::before{opacity:0;}
   transition:width var(--transition-fast) ease;
 }
 .nav a:hover::after{width:100%;}
+.header-search{
+  margin-left:var(--space-24);
+  background:var(--white);
+  color:var(--ink);
+  border:none;
+  outline:none;
+  max-width:190px;
+  padding:var(--space-8) var(--space-16);
+  font-size:16px;
+  border-radius:9999px;
+  box-shadow:inset 2px 5px 10px rgba(0,0,0,0.1);
+}
+.header-search::placeholder{color:var(--silver);}
 .nav-toggle{display:none;flex-direction:column;gap:var(--space-4);background:none;border:none;cursor:pointer;}
 .nav-toggle span{width:24px;height:2px;background:var(--ink);transition:transform var(--transition-base) ease;}
 
@@ -310,6 +323,7 @@ body.scrolled .header::before{opacity:0;}
   .nav a{padding:var(--space-8) 0;}
   .header.open .nav{transform:translateY(0);opacity:1;pointer-events:auto;}
   .nav-toggle{display:flex;}
+  .header-search{display:none;}
 }
 
 /* MOTION SAFE */
@@ -328,6 +342,7 @@ body.scrolled .header::before{opacity:0;}
     <a href="#showcase">Showcase</a>
     <a href="#cta">Get Started</a>
   </nav>
+  <input type="search" class="header-search" placeholder="Search" aria-label="Search">
   <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav"><span></span><span></span><span></span></button>
 </header>
 
