@@ -88,7 +88,8 @@ body.loaded .loader{opacity:0;pointer-events:none;transform:translate(-50%,-50%)
   cursor:pointer;
   border-radius:2rem;
   box-shadow:0 6px 6px rgba(0,0,0,0.2),0 0 20px rgba(0,0,0,0.1);
-  transition:all 0.4s cubic-bezier(0.175,0.885,0.32,2.2);
+  transition:width var(--transition-base) cubic-bezier(.22,.61,.36,1),
+             height var(--transition-base) cubic-bezier(.22,.61,.36,1);
 }
 .liquidGlass-effect{
   position:absolute;
@@ -110,14 +111,34 @@ body.loaded .loader{opacity:0;pointer-events:none;transform:translate(-50%,-50%)
   z-index:2;
   box-shadow:inset 2px 2px 1px rgba(255,255,255,0.5),inset -1px -1px 1px rgba(255,255,255,0.5);
 }
-.liquidGlass-text{
+.nav-content{
   z-index:3;
-  font-size:2rem;
-  color:black;
   display:flex;
   align-items:center;
-  gap:12px;
+  gap:var(--space-24);
+  width:100%;
+  justify-content:space-between;
 }
+.logo{height:24px;}
+.nav-links{display:flex;gap:var(--space-24);font-weight:500;}
+.nav-links a{color:var(--ink);font-size:1rem;}
+.nav-btn{
+  padding:8px 16px;
+  border-radius:16px;
+  background:var(--ink);
+  color:var(--white);
+  font-weight:500;
+}
+.nav-btn:hover{filter:brightness(1.1);}
+.search{
+  background:rgba(255,255,255,0.8);
+  border:1px solid var(--mist);
+  border-radius:24px;
+  padding:8px 16px;
+  font-size:0.9rem;
+  color:var(--ink);
+}
+.search::placeholder{color:var(--silver);}
 #island{
   position:fixed;
   top:20px;
@@ -126,25 +147,12 @@ body.loaded .loader{opacity:0;pointer-events:none;transform:translate(-50%,-50%)
   width:33vw;
   min-width:160px;
   height:40px;
-  justify-content:center;
+  padding:0 var(--space-24);
   align-items:center;
   z-index:999;
 }
-#island.open{width:90vw;}
-#island.open:hover{height:60px;}
-#island.open{height:40px;}
-.input{
-  margin:0;
-  background:none;
-  border:none;
-  outline:none;
-  max-width:190px;
-  padding:10px 20px;
-  font-size:16px;
-  border-radius:9999px;
-  box-shadow:inset 2px 5px 10px rgb(5,5,5);
-  color:#fff;
-}
+#island.open{width:90vw;height:56px;}
+#island.open:hover{transform:scale(1.02);}
 
 /* HERO */
 .hero{
@@ -374,9 +382,15 @@ body.loaded .loader{opacity:0;pointer-events:none;transform:translate(-50%,-50%)
   <div class="liquidGlass-effect"></div>
   <div class="liquidGlass-tint"></div>
   <div class="liquidGlass-shine"></div>
-  <div class="liquidGlass-text">
-    <span class="logo">Servojo</span>
-    <input placeholder="Search" class="input" type="text">
+  <div class="nav-content">
+    <img src="assets/servojo.png" alt="Servojo logo" class="logo">
+    <nav class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#showcase">Showcase</a>
+      <a href="#cta">Waitlist</a>
+    </nav>
+    <input type="search" class="search" placeholder="Search">
+    <a href="#cta" class="nav-btn">Join</a>
   </div>
 </header>
 
@@ -490,9 +504,6 @@ window.addEventListener('scroll',()=>{
   if(window.scrollY>0 && !expanded){
     island.classList.add('open');
     expanded=true;
-  }else if(window.scrollY===0 && expanded){
-    island.classList.remove('open');
-    expanded=false;
   }
 });
 const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
